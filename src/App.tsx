@@ -7,12 +7,12 @@ export default function App() {
       <section className="hero">
         <h1>AI Smart Paste</h1>
         <p className="subtitle">
-          Hover images → press <strong>Ctrl + Shift + V</strong> → paste into AI.
+          Hover images. Stack them automatically. Paste into AI <strong>instantly.</strong>
         </p>
 
         <p className="description">
-          A Chrome extension that lets you collect images from anywhere
-          and inject them into ChatGPT or Gemini — instantly.
+          AI Smart Paste lets you collect images from anywhere on the web
+          and paste them directly into ChatGPT or Gemini — no downloads, no uploads.
         </p>
 
         <div className="cta">
@@ -30,12 +30,17 @@ export default function App() {
             Install extension
           </a>
         </div>
+        <p className="trust">
+          No sign-up · No tracking · Works instantly
+        </p>
+
       </section>
 
       {/* DEMO */}
       <section id="demo" className="demo">
         <div className="demo-inner">
-          <h2>How it works</h2>
+          <h2>How it works in seconds
+          </h2>
 
           <ul className="steps">
             <li>
@@ -85,6 +90,21 @@ export default function App() {
           Gemini has stricter limitations — images paste one at a time.
         </p>
       </section>
+
+      <section className="why">
+        <h2>Why AI Smart Paste?</h2>
+
+        <p>
+          Uploading images to AI tools is slow and repetitive.
+          AI Smart Paste removes friction so you can stay in flow.
+        </p>
+
+        <p>
+          Built for designers, researchers, and power users
+          who work with AI every day.
+        </p>
+      </section>
+
 
       {/* INSTALL */}
       <section id="install" className="install">
