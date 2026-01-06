@@ -1,0 +1,162 @@
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+  background: #0b0d10;
+  color: #f5f7fa;
+}
+
+.page {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 0 24px;
+}
+
+.hero {
+  text-align: center;
+  margin-bottom: 96px;
+}
+
+.hero h1 {
+  font-size: 56px;
+  margin-bottom: 16px;
+}
+
+.subtitle {
+  font-size: 20px;
+  opacity: 0.9;
+}
+
+.description {
+  margin-top: 24px;
+  font-size: 18px;
+  opacity: 0.8;
+}
+
+.cta {
+  margin-top: 40px;
+  display: flex;
+  justify-content: center;
+  gap: 16px;
+}
+
+.primary,
+.secondary {
+  padding: 14px 22px;
+  border-radius: 10px;
+  text-decoration: none;
+  font-weight: 600;
+}
+
+.primary {
+  background: #4f8cff;
+  color: white;
+}
+
+.secondary {
+  border: 1px solid #4f8cff;
+  color: #4f8cff;
+}
+
+section {
+  margin-bottom: 96px;
+}
+
+.demo-box {
+  margin-top: 2rem;
+  display: flex;
+  justify-content: center;
+}
+
+.demo-gif {
+  width: 100%;
+  max-width: 960px;
+  border-radius: 12px;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+}
+
+
+.steps {
+  list-style: none;
+  padding: 0;
+  margin: 0 auto;
+  max-width: 560px;
+  text-align: left;
+  /* critical */
+}
+
+.steps li {
+  display: grid;
+  grid-template-columns: 28px 1fr;
+  gap: 14px;
+  align-items: center;
+  /* 🔑 THIS fixes vertical drift */
+  margin: 16px 0;
+}
+
+.steps span {
+  display: block;
+  font-weight: 700;
+  opacity: 0.6;
+  text-align: right;
+  line-height: 1;
+  /* 🔑 lock baseline */
+}
+
+.steps p {
+  margin: 0;
+  line-height: 1.5;
+}
+
+
+
+@media (max-width: 768px) {
+  .demo-gif {
+    max-width: 100%;
+  }
+}
+
+.demo,
+.supported {
+  text-align: center;
+}
+
+.supported ul {
+  list-style: none;
+  padding: 0;
+}
+
+.supported li {
+  margin: 8px 0;
+}
+
+.demo-inner {
+  /* same as .steps */
+  max-width: 560px;
+  /* center block, space below */
+  margin: 0 auto 48px;
+  /* align heading with numbers */
+  text-align: left;
+
+}
+
+.demo-inner h2 {
+  margin-bottom: 24px;
+}
+
+.note {
+  margin-top: 12px;
+  opacity: 0.6;
+}
+
+.install {
+  text-align: center;
+}
+
+footer {
+  text-align: center;
+  opacity: 0.5;
+}
