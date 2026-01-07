@@ -25,4 +25,7 @@ dist-ssr
 
 #Environment variables if any
 .env
+
+# macOS
+# A hidden file that macOS automatically creates in every folder
 .DS_Store
