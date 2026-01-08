@@ -1,8 +1,25 @@
 import type { VercelRequest, VercelResponse } from '@vercel/node'
-import { setPro } from '../../src/lib/proStore.js'
 import crypto from 'crypto'
+import { setPro } from '../../src/lib/proStore'
+
+export const config = {
+    api: {
+        bodyParser: false, // 🚨 REQUIRED
+    },
+}
 
 const WEBHOOK_SECRET = process.env.LEMONSQUEEZY_WEBHOOK_SECRET!
+
+async function readRawBody(req: VercelRequest): Promise<string> {
+    return new Promise((resolve, reject) => {
+        let data = ''
+        req.on('data', chunk => {
+            data += chunk
+        })
+        req.on('end', () => resolve(data))
+        req.on('error', err => reject(err))
+    })
+}
 
 export default async function handler(
     req: VercelRequest,
@@ -12,24 +29,29 @@ export default async function handler(
         return res.status(405).json({ error: 'Method not allowed' })
     }
 
-    const signature = req.headers['x-signature'] as string
-    const rawBody = JSON.stringify(req.body)
+    const signature = req.headers['x-signature'] as string | undefined
+    if (!signature) {
+        return res.status(400).json({ error: 'Missing signature' })
+    }
 
-    const hmac = crypto
+    const rawBody = await readRawBody(req)
+
+    const expectedSignature = crypto
         .createHmac('sha256', WEBHOOK_SECRET)
         .update(rawBody)
         .digest('hex')
 
-    if (hmac !== signature) {
+    if (signature !== expectedSignature) {
         console.warn('[Webhook] Invalid signature')
         return res.status(401).json({ error: 'Invalid signature' })
     }
 
-    const event = req.body
-    const eventName = event?.meta?.event_name
-    const extensionId = event?.data?.attributes?.metadata?.extensionId
+    const event = JSON.parse(rawBody)
 
-    console.log('[Webhook] Event:', eventName)
+    const eventName = event?.meta?.event_name
+    const extensionId = event?.meta?.custom_data?.extensionId
+
+    console.log('[Webhook] Event:', eventName, extensionId)
 
     if (
         eventName === 'subscription_created' ||
