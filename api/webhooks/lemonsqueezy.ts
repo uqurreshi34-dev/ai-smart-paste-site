@@ -1,5 +1,5 @@
 import type { VercelRequest, VercelResponse } from '@vercel/node'
-import { setPro } from '../../src/lib/proStore'
+import { setPro } from '../../src/lib/proStore.js'
 import crypto from 'crypto'
 
 const WEBHOOK_SECRET = process.env.LEMONSQUEEZY_WEBHOOK_SECRET!
