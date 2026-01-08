@@ -1,5 +1,5 @@
 import type { VercelRequest, VercelResponse } from '@vercel/node'
-import crypto from 'crypto'
+import { createHmac } from 'crypto'
 import { query } from '../lib/db'
 
 
@@ -22,8 +22,7 @@ export default async function handler(
     }
 
     // 🔐 Verify webhook signature
-    const hmac = crypto
-        .createHmac('sha256', WEBHOOK_SECRET)
+    const hmac = createHmac('sha256', WEBHOOK_SECRET)
         .update(rawBody)
         .digest('hex')
 
