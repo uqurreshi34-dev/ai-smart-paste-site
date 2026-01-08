@@ -49,5 +49,20 @@ export default async function handler(
 
     console.log('[Webhook] Event:', eventName, extensionId)
 
+    if (
+        eventName === 'subscription_created' ||
+        eventName === 'subscription_updated' ||
+        eventName === 'subscription_cancelled'
+    ) {
+        if (extensionId) {
+            console.log('[Webhook] Persisting subscription state', {
+                extensionId,
+                status: event?.data?.attributes?.status,
+                subscriptionId: event?.data?.id,
+            })
+            // ⬆️ this becomes a DB write in step 2
+        }
+    }
+
     return res.status(200).json({ received: true })
 }
