@@ -1,22 +1,8 @@
 import type { VercelRequest, VercelResponse } from '@vercel/node'
 import crypto from 'crypto'
-
-export const config = {
-    api: {
-        bodyParser: false,
-    },
-}
+import { query } from '@/lib/db'
 
 const WEBHOOK_SECRET = process.env.LEMONSQUEEZY_WEBHOOK_SECRET!
-
-async function readRawBody(req: VercelRequest): Promise<string> {
-    return new Promise((resolve, reject) => {
-        let data = ''
-        req.on('data', chunk => (data += chunk))
-        req.on('end', () => resolve(data))
-        req.on('error', reject)
-    })
-}
 
 export default async function handler(
     req: VercelRequest,
@@ -26,43 +12,66 @@ export default async function handler(
         return res.status(405).json({ error: 'Method not allowed' })
     }
 
-    const signature = req.headers['x-signature'] as string | undefined
+    const rawBody = JSON.stringify(req.body)
+    const signature = req.headers['x-signature'] as string
+
     if (!signature) {
         return res.status(400).json({ error: 'Missing signature' })
     }
 
-    const rawBody = await readRawBody(req)
-
-    const expectedSignature = crypto
+    // 🔐 Verify webhook signature
+    const hmac = crypto
         .createHmac('sha256', WEBHOOK_SECRET)
         .update(rawBody)
         .digest('hex')
 
-    if (signature !== expectedSignature) {
-        console.warn('[Webhook] Invalid signature')
+    if (hmac !== signature) {
         return res.status(401).json({ error: 'Invalid signature' })
     }
 
-    const event = JSON.parse(rawBody)
-    const eventName = event?.meta?.event_name
-    const extensionId = event?.meta?.custom_data?.extensionId
+    const eventName = req.body?.meta?.event_name
+    const data = req.body?.data
 
-    console.log('[Webhook] Event:', eventName, extensionId)
-
-    if (
-        eventName === 'subscription_created' ||
-        eventName === 'subscription_updated' ||
-        eventName === 'subscription_cancelled'
-    ) {
-        if (extensionId) {
-            console.log('[Webhook] Persisting subscription state', {
-                extensionId,
-                status: event?.data?.attributes?.status,
-                subscriptionId: event?.data?.id,
-            })
-            // ⬆️ this becomes a DB write in step 2
-        }
+    if (!eventName || !data) {
+        return res.status(200).json({ received: true })
     }
+
+    // ✅ Only handle subscription events
+    if (
+        eventName !== 'subscription_created' &&
+        eventName !== 'subscription_updated' &&
+        eventName !== 'subscription_cancelled'
+    ) {
+        return res.status(200).json({ received: true })
+    }
+
+    const subscriptionId = data.id
+    const status = data.attributes?.status
+    const extensionId = data.attributes?.custom_data?.extensionId
+
+    // 🔒 Guard: extensionId is REQUIRED for entitlement
+    if (!extensionId) {
+        console.warn('Lemon Squeezy webhook missing extensionId')
+        return res.status(200).json({ received: true })
+    }
+
+    // 💾 Persist to Postgres (UPSERT)
+    await query(
+        `
+    INSERT INTO subscriptions (extension_id, subscription_id, status)
+    VALUES ($1, $2, $3)
+    ON CONFLICT (extension_id)
+    DO UPDATE SET
+      subscription_id = EXCLUDED.subscription_id,
+      status = EXCLUDED.status,
+      updated_at = NOW()
+    `,
+        [extensionId, subscriptionId, status] //$1, $2, $3 (prevents sql injection)
+    )
 
     return res.status(200).json({ received: true })
 }
+ // sql expn
+ //In plain English: Try to insert a subscription. 
+ // If one already exists for this extension_id, update it instead with the new subscription_id and status, 
+ // and refresh the timestamp. This is called an "upsert" (update or insert).
