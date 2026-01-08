@@ -2,6 +2,16 @@ import type { VercelRequest, VercelResponse } from '@vercel/node'
 
 const LEMON_API_KEY = process.env.LEMON_SQUEEZY_API_KEY!
 
+type LemonSqueezyResponse = {
+    data?: {
+        id: string
+        attributes?: {
+            status: string
+        }
+    }[]
+}
+
+
 export default async function handler(
     req: VercelRequest,
     res: VercelResponse
@@ -31,16 +41,12 @@ export default async function handler(
             throw new Error('Failed to fetch subscriptions')
         }
 
-        const data = await response.json()
+        const data = (await response.json()) as LemonSqueezyResponse
 
-        const isPro = data.data?.some((sub: any) => {
-            const status = sub.attributes.status
-            const meta = sub.attributes.metadata
-            return (
-                status === 'active' &&
-                meta?.extensionId === extensionId
-            )
-        })
+        const isPro = data.data?.some((sub) => {
+            return sub.attributes?.status === 'active'
+        }) ?? false
+
 
         return res.status(200).json({ isPro: Boolean(isPro) })
     } catch (err) {
