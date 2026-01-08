@@ -1,10 +1,9 @@
 import type { VercelRequest, VercelResponse } from '@vercel/node'
 import crypto from 'crypto'
-import { setPro } from '../../src/lib/proStore'
 
 export const config = {
     api: {
-        bodyParser: false, // 🚨 REQUIRED
+        bodyParser: false,
     },
 }
 
@@ -13,11 +12,9 @@ const WEBHOOK_SECRET = process.env.LEMONSQUEEZY_WEBHOOK_SECRET!
 async function readRawBody(req: VercelRequest): Promise<string> {
     return new Promise((resolve, reject) => {
         let data = ''
-        req.on('data', chunk => {
-            data += chunk
-        })
+        req.on('data', chunk => (data += chunk))
         req.on('end', () => resolve(data))
-        req.on('error', err => reject(err))
+        req.on('error', reject)
     })
 }
 
@@ -47,32 +44,10 @@ export default async function handler(
     }
 
     const event = JSON.parse(rawBody)
-
     const eventName = event?.meta?.event_name
     const extensionId = event?.meta?.custom_data?.extensionId
 
     console.log('[Webhook] Event:', eventName, extensionId)
-
-    if (
-        eventName === 'subscription_created' ||
-        eventName === 'subscription_updated'
-    ) {
-        if (!extensionId) {
-            console.warn('[Webhook] Missing extensionId')
-        } else {
-            setPro(extensionId, true)
-            console.log(`[Webhook] PRO enabled for ${extensionId}`)
-        }
-    }
-
-    if (eventName === 'subscription_cancelled') {
-        if (!extensionId) {
-            console.warn('[Webhook] Missing extensionId')
-        } else {
-            setPro(extensionId, false)
-            console.log(`[Webhook] PRO revoked for ${extensionId}`)
-        }
-    }
 
     return res.status(200).json({ received: true })
 }
