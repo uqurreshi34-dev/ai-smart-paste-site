@@ -1,6 +1,7 @@
 import type { VercelRequest, VercelResponse } from '@vercel/node'
 import crypto from 'crypto'
-import * as db from '../../src/lib/db.js'
+import { query } from '../lib/db'
+
 
 
 const WEBHOOK_SECRET = process.env.LEMONSQUEEZY_WEBHOOK_SECRET!
@@ -57,7 +58,7 @@ export default async function handler(
     }
 
     // 💾 Persist to Postgres (UPSERT)
-    await db.query(
+    await query(
         `
     INSERT INTO subscriptions (extension_id, subscription_id, status)
     VALUES ($1, $2, $3)
