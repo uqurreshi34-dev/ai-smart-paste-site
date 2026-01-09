@@ -123,12 +123,22 @@ export default function App() {
       </section>
 
       {/* FOOTER */}
-      <footer>
+      <footer className="footer">
         <p>
           Built for power users who work with AI every day.
         </p>
+
+        <p style={{ marginTop: '12px' }}>
+          <a
+            href="/privacy.html"
+            target="_blank"
+            rel="noopener noreferrer"
+            style={{ color: '#666', fontSize: '14px' }}
+          >
+            Privacy Policy
+          </a>
+        </p>
       </footer>
     </div>
-
   )
 }
