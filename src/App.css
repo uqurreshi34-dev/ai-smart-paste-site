@@ -156,6 +156,13 @@ section {
   margin-bottom: 24px;
 }
 
+.demo-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+
 .note {
   margin-top: 12px;
   opacity: 0.6;

@@ -38,46 +38,49 @@ export default function App() {
 
       {/* DEMO */}
       <section id="demo" className="demo">
-        <div className="demo-inner">
-          <h2>How it works in seconds
-          </h2>
+        <div className="demo-content">
+          <div className="demo-inner">
+            <h2>How it works in seconds
+            </h2>
 
-          <ul className="steps">
-            <li>
-              <span>1</span>
-              <p>Hover images anywhere on the web</p>
-            </li>
+            <ul className="steps">
+              <li>
+                <span>1</span>
+                <p>Hover images anywhere on the web</p>
+              </li>
 
-            <li>
-              <span>2</span>
-              <p>Images stack automatically (no clicks)</p>
-            </li>
+              <li>
+                <span>2</span>
+                <p>Images stack automatically (no clicks)</p>
+              </li>
 
-            <li>
-              <span>3</span>
-              <div className="step-text">
-                <p>
-                  Press <strong>Ctrl + Shift + V</strong>
-                </p>
-                <p className="step-sub">
-                  Gemini: Ctrl + Shift + V → Ctrl + V
-                </p>
-              </div>
-            </li>
+              <li>
+                <span>3</span>
+                <div className="step-text">
+                  <p>
+                    Press <strong>Ctrl + Shift + V</strong>
+                  </p>
+                  <p className="step-sub">
+                    Gemini: Ctrl + Shift + V → Ctrl + V
+                  </p>
+                </div>
+              </li>
 
-            <li>
-              <span>4</span>
-              <p>Images appear inside ChatGPT or Gemini</p>
-            </li>
-          </ul>
-        </div>
+              <li>
+                <span>4</span>
+                <p>Images appear inside ChatGPT or Gemini</p>
+              </li>
+            </ul>
+          </div>
 
-        <div className="demo-box">
-          <img
-            src="/demo.gif"
-            alt="AI Smart Paste demo"
-            className="demo-gif"
-          />
+
+          <div className="demo-box">
+            <img
+              src="/demo.gif"
+              alt="AI Smart Paste demo"
+              className="demo-gif"
+            />
+          </div>
         </div>
       </section>
 
