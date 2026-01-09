@@ -57,6 +57,10 @@ export default function App() {
               <span>3</span>
               <p>
                 Press <strong>Ctrl + Shift + V</strong>
+                <br />
+                <span style={{ fontSize: '14px', color: '#666' }}>
+                  (Gemini: Ctrl + Shift + V → Ctrl + V)
+                </span>
               </p>
             </li>
 
