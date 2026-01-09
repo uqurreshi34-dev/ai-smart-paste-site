@@ -111,7 +111,16 @@ section {
   line-height: 1.5;
 }
 
+.step-text {
+  display: flex;
+  flex-direction: column;
+}
 
+.step-sub {
+  font-size: 14px;
+  color: #999;
+  margin-top: 4px;
+}
 
 @media (max-width: 768px) {
   .demo-gif {
