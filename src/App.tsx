@@ -55,13 +55,14 @@ export default function App() {
 
             <li>
               <span>3</span>
-              <p>
-                Press <strong>Ctrl + Shift + V</strong>
-                <br />
-                <span style={{ fontSize: '14px', color: '#666' }}>
-                  (Gemini: Ctrl + Shift + V → Ctrl + V)
-                </span>
-              </p>
+              <div className="step-text">
+                <p>
+                  Press <strong>Ctrl + Shift + V</strong>
+                </p>
+                <p className="step-sub">
+                  Gemini: Ctrl + Shift + V → Ctrl + V
+                </p>
+              </div>
             </li>
 
             <li>
