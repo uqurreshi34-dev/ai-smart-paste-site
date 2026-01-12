@@ -12,7 +12,7 @@ export default function App() {
 
         <p className="description">
           AI Smart Paste lets you collect images from anywhere on the web
-          and paste them directly into ChatGPT or Gemini — no downloads, no uploads.
+          and paste them directly into Gemini, Grok or Claude — no downloads, no uploads.
         </p>
 
         <div className="cta">
@@ -57,18 +57,15 @@ export default function App() {
               <li>
                 <span>3</span>
                 <div className="step-text">
-                  <p>
-                    Press <strong>Ctrl + Shift + V</strong>
-                  </p>
                   <p className="step-sub">
-                    Gemini: Ctrl + Shift + V → Ctrl + V
+                    Ctrl + Shift + V → Ctrl + V
                   </p>
                 </div>
               </li>
 
               <li>
                 <span>4</span>
-                <p>Images appear inside ChatGPT or Gemini</p>
+                <p>Images appear inside Gemini, Groke or Claude</p>
               </li>
             </ul>
           </div>
@@ -90,12 +87,13 @@ export default function App() {
         <h2>Supported AIs</h2>
 
         <ul>
-          <li>✅ ChatGPT (multi-image upload)</li>
-          <li>⚠️ Gemini (clipboard-based paste)</li>
+          <li>Gemini (clipboard-based paste)</li>
+          <li>Grok (clipboard-based paste)</li>
+          <li>Claude (clipboard-based paste)</li>
         </ul>
 
         <p className="note">
-          Gemini has stricter limitations — images paste one at a time.
+          ⚠️ AI limitations — images paste one at a time.
         </p>
       </section>
 
