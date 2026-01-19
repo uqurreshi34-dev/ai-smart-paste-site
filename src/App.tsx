@@ -65,7 +65,7 @@ export default function App() {
 
               <li>
                 <span>4</span>
-                <p>Images appear inside Gemini, Groke or Claude</p>
+                <p>Images appear inside Gemini, Grok or Claude</p>
               </li>
             </ul>
           </div>
