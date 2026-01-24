@@ -119,7 +119,7 @@ export default function App() {
         <p>
           AI Smart Paste is currently available as a Chrome extension.
         </p>
-
+        <br />
         <a
           href="https://chrome.google.com/webstore/detail/jjnjhnigfaipdoddnlgmpmoicedfmgkh"
           className="primary"
